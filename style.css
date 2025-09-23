@@ -99,7 +99,9 @@ span{
 .hero-section h1 {
   color: #4f200d;
   font-family: "Bebas Neue", sans-serif;
+  /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
   font-size: 4rem;
+  margin-top: 20px;
 }
 
 .description {
@@ -130,6 +132,7 @@ span{
   font-family: "Bebas Neue", sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.59rem);
   border-radius: 4px;
+  margin-bottom: 20px;
 }
 
 .hero-section .logo {
@@ -146,6 +149,139 @@ span{
   line-height: 100%;
   letter-spacing: 0.1cap;
   font-family: "Bebas Neue", sans-serif;
+}
+
+/* 4th section */
+.order-section{
+  background-color: #4f200d;
+  color: white;
+  /* text-align: center; */
+}
+
+.order-header{
+  text-align: center;
+  font-family: "Bebas Neue", sans-serif;
+  padding-top: 20px;
+  font-size: 4rem;
+}
+
+.formarea{
+  
+  max-width: 24rem;
+  padding: 30px;
+  border-radius: 4px;
+  color: #4f200d;
+  margin: 0 auto;
+  margin-top: 20px;
+  font-family: "Nunito", sans-serif;
+  background-color: #ffd93d;
+}
+
+.first-section{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.first-section label{
+  margin-bottom: 5px;
+}
+
+.first-section > div{
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.first-section input{
+  border-radius: 4px;
+  border: none;
+  padding: 7px;
+  padding-left: 10px;
+}
+
+.address-area{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.address-area label{
+  margin-bottom: 5px;
+}
+
+textarea{
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.cart-header{
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.order-section img{
+  width: 40px;
+  height: 60px;
+  margin-top: 10px;
+}
+
+.order-items{
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemnum{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.itemnum span{
+  color: black;
+}
+
+.order-section button{
+  padding: 1px 6px;
+  background-color: white;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1.115rem;
+}
+
+.items{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkout-btn {
+  /* width: 100%; */
+  margin-top: 20px;
+  padding: 10px 20px;
+  display: block;
+  background-color: white;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.location-radio{
+  margin-top: 20px;
+  /* display: flex; */
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.nb{
+  font-size: x-small;
+  margin-top: 10px;
 }
 
 @media (max-width: 768px) {
@@ -206,6 +342,21 @@ span{
   }
   .video-section{
     height: 100vh;
+  }
+  .first-section  label{
+    margin-top: 15px;
+    margin-bottom: 2px;
+  }
+  .first-section input{
+    width: 76vw;
+  }
+
+  .address-area label{
+    margin-bottom: 2px;
+  }
+
+  .itemnum{
+    gap: 10px;
   }
 }
 

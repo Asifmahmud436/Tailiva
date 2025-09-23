@@ -21,7 +21,7 @@
       href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-     <link rel="icon" type="image/x-icon" href="/images/logo.png">
+    <link rel="icon" type="image/x-icon" href="/images/logo.png" />
     <link rel="stylesheet" href="style.css" />
     <title>Tailiva</title>
   </head>
@@ -30,9 +30,15 @@
     <section class="video-section">
       <nav>
         <div>
+          <!-- <a href="order-section"></a> -->
           <h1 class="links" onclick="purr()">order</h1>
           <!-- <h1 class="links" onclick="purr()">logo</h1> -->
-          <img src="images/logo.png" alt="logo image" class="links" onclick="purr()">
+          <img
+            src="images/logo.png"
+            alt="logo image"
+            class="links"
+            onclick="purr()"
+          />
           <h1 class="links" onclick="purr()">ingredients</h1>
         </div>
       </nav>
@@ -70,17 +76,69 @@
         </p>
         <!--  -->
         <audio id="purr">
-          <source src="images/meow.mp3" type="audio/mp3">
+          <source src="images/meow.mp3" type="audio/mp3" />
         </audio>
         <button type="button" onclick="purr()" class="links">ORDER NOW</button>
       </div>
     </section>
+
     <!-- 3rd section : Ingredients -->
-     <section></section>
+    <section></section>
+
     <!-- 4th section : Order -->
-     <section>
-      
-     </section>
+    <section class="order-section">
+      <h1 class="order-header">ORDER</h1>
+      <!-- form -->
+      <div class="formarea" id="invoice">
+        <div class="first-section">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="Waqar Khan" />
+          </div>
+          <div>
+            <label for="phone">Phone Number</label>
+            <input
+              type="text"
+              name="phone"
+              id="phone"
+              placeholder="01712345678"
+            />
+          </div>
+        </div>
+        <div class="address-area">
+          <label for="address">Address</label>
+          <textarea
+            name="address"
+            id="address"
+            cols="20"
+            rows="3"
+            placeholder="123/A, abc road, XYZpara, Dhaka"
+          ></textarea>
+        </div>
+        <div class="location-radio">
+          <input type="radio" id="html" name="location" value="Inside Dhaka" />
+          <label for="html">Inside Dhaka</label><br />
+          <input type="radio" id="css" name="location" value="Outside Dhaka" />
+          <label for="css">Outside Dhaka</label><br />
+        </div>
+        <h1 class="cart-header">Your Cart</h1>
+        <!-- order items -->
+        <div class="order-items">
+          <div class="items">
+            <img src="images/box.png" alt="" />
+            <p>Tailiva Permium Chicken</p>
+          </div>
+          <div class="itemnum">
+            <button type="submit" onclick="handleNum()">+</button>
+            <p>x<span class="amount">1</span></p>
+          </div>
+        </div>
+        <p class="nb">(*We are doing Cash on delivery for a few days. If you want to pay early just call this number: 017XXXXXXXX)</p>
+        <div class="checkout-btn" id="download" onclick="downloadPDF()">Checkout</div>
+      </div>
+    </section>
   </body>
   <script src="app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
 </html>
