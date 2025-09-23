@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+     <link rel="icon" type="image/x-icon" href="/images/logo.png">
+    <link rel="stylesheet" href="style.css" />
+    <title>Tailiva</title>
+  </head>
+  <body>
+    <!-- 1st section : The video -->
+    <section class="video-section">
+      <nav>
+        <div>
+          <h1 class="links" onclick="purr()">order</h1>
+          <!-- <h1 class="links" onclick="purr()">logo</h1> -->
+          <img src="images/logo.png" alt="logo image" class="links" onclick="purr()">
+          <h1 class="links" onclick="purr()">ingredients</h1>
+        </div>
+      </nav>
+
+      <div>
+        <video autoplay loop muted>
+          <source src="images/tailiva.mp4" type="video/mp4" />
+        </video>
+        <h1 class="short-para">
+          <span>Tailiva:</span> Protein Powerhouse for Your Feline Friend!
+        </h1>
+        <h1 class="short-para2">Tailiva</h1>
+      </div>
+    </section>
+
+    <!-- 2nd section : Hero section -->
+    <section class="hero-section">
+      <img src="images/hero-photo.png" alt="banner-photo" class="photo" />
+      <div class="description">
+        <!-- <img src="images/logo.png" alt="logo" class="logo" /> -->
+        <h1>TAILIVA</h1>
+        <p class="cathphrase">Protein Powerhouse for Your Feline Friend!</p>
+        <p>
+          Protein Powerhouse for Your Feline Friend! This carefully curated
+          chicken-based wet food recipe is designed to provide your cat with
+          optimal nutrition. Packed with high-quality protein from boneless
+          chicken and liver, it's a true energy booster for their active
+          lifestyle. The blend of carrot, pumpkin, and sweet potato offers a
+          perfect balance of fiber and essential vitamins, promoting healthy
+          digestion and sustained energy. Enriched with fish oil for a shiny
+          coat and taurine for a healthy heart, this recipe is crafted to keep
+          your cat thriving. The inclusion of chicken broth adds hydration and
+          irresistible flavor. Treat your furry companion to a wholesome,
+          nourishing meal they’ll love!
+        </p>
+        <!--  -->
+        <audio id="purr">
+          <source src="images/meow.mp3" type="audio/mp3">
+        </audio>
+        <button type="button" onclick="purr()" class="links">ORDER NOW</button>
+      </div>
+    </section>
+    <!-- 3rd section : Ingredients -->
+     <section></section>
+    <!-- 4th section : Order -->
+     <section>
+      
+     </section>
+  </body>
+  <script src="app.js"></script>
+</html>
