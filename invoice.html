@@ -7,7 +7,18 @@
     <title>Document</title>
   </head>
   <body>
-    <section class="invoice-section">
+    <section class="invoice-section" id="invoice-section"></section>
+  </body>
+  <script src="app.js"></script>
+  <!-- <script src="pdf.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    window.onload = function () {
+      const data = JSON.parse(localStorage.getItem("invoiceData"));
+      if (!data) return;
+
+      let container = document.getElementById("invoice-section");
+      container.innerHTML = `
       <div class="invoice-header">
         <h1>Tailiva</h1>
         <img src="images/logo.png" alt="" />
@@ -15,18 +26,24 @@
       <hr />
       <div class="invoice-body">
         <div>
-            <h3>Waqar Khan</h3>
-            <p>Tailiva Permium Chicken (1kg)  x  1</p>
-            <h1>Tk. 1200</h1>
+          <h3>${data.name}</h3>
+          <p>Tailiva Premium Chicken (1kg) x ${data.amount}</p>
+          <h3>Tk. ${data.total}</h3>
         </div>
-        <p>Address: <span>Queens, USA</span></p>
-        <p>Transaction Id: <span>ABCD-ABCD-ABCD-ABCD</span></p>
+        <p>Address: <span>${data.address}</span></p>
+        <p>Phone: <span>${data.phone}</span></p>
+        <p>Transaction Id: <span>${data.transactionId}</span></p>
         <div class="paid-seal">Paid</div>
       </div>
       <div class="invoice-footer">
-        <hr>
+        <hr />
         <p>The WK IT - 01711738488</p>
       </div>
-    </section>
-  </body>
+    `;
+
+      setTimeout(() => {
+        html2pdf().from(container).save("invoice.pdf");
+      }, 1000); 
+    };
+  </script>
 </html>
