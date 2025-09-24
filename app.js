@@ -3,35 +3,44 @@ function purr() {
     purr.play()
 }
 
-function handleNum() {
+function countTotal() {
+    let location = document.querySelector('input[name="location"]:checked');
+    let amount = document.getElementsByClassName('amount')[0];
+    let itemsAmount = parseInt(amount.innerText) * 350;
+
+    // 🟢 check if location is selected
+    let shipping = location ? parseInt(location.value) : 0;
+
+    let total = itemsAmount + shipping;
+    let payment = document.getElementById('payment-amount');
+    payment.innerText = total;
+}
+
+
+function increaseCount() {
     purr()
     let amount = document.getElementsByClassName('amount')[0];
     amount.innerText = parseInt(amount.innerText) + 1;
-    console.log('okay')
+    countTotal();
 }
 
-function downloadPDF() {
+function decreaseCount() {
     purr()
-    const element = document.getElementById("invoice");
-
-    // এখানে html2pdf দিয়ে convert হচ্ছে
-    html2pdf()
-        .from(element)
-        .set({
-            margin: 10,
-            filename: 'invoice.pdf',
-            image: {
-                type: 'jpeg',
-                quality: 0.98
-            },
-            html2canvas: {
-                scale: 2
-            },
-            jsPDF: {
-                unit: 'mm',
-                format: 'a4',
-                orientation: 'portrait'
-            }
-        })
-        .save();
+    let amount = document.getElementsByClassName('amount')[0];
+    if (parseInt(amount.innerText) > 1) {
+        amount.innerText = parseInt(amount.innerText) - 1;
+        countTotal();
+    }
 }
+
+window.onload = function () {
+    countTotal();
+}
+
+function gotoOrder() {
+    purr()
+    document.getElementById('order-section').scrollIntoView({
+        behavior: "smooth"
+    })
+}
+

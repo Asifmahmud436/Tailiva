@@ -221,6 +221,7 @@ textarea{
 .cart-header{
   font-weight: bold;
   margin-top: 20px;
+  font-family: "Bebas Neue", sans-serif;
 }
 
 .order-section img{
@@ -282,6 +283,98 @@ textarea{
 .nb{
   font-size: x-small;
   margin-top: 10px;
+}
+
+.transaction-field{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.transaction-field label{
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.transaction-field input{
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.nb span{
+  color: black;
+  font-weight: bold;
+}
+
+hr{
+  margin-top: 13px;
+  margin-bottom: 10px;
+}
+
+.total-amount{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-amount span{
+  color: #4f200d;
+}
+
+
+
+
+/* invoice */
+
+.invoice-section{
+  padding: 4rem;
+}
+
+.invoice-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.invoice-header h1{
+  font-weight: bold;
+  font-size: 3rem;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.invoice-header img{
+  max-width: 7%;
+}
+
+.invoice-body{
+  font-family: "Nunito", sans-serif;
+}
+
+.invoice-body > div{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Nunito", sans-serif;
+  margin-bottom: 100px;
+  /* height: 70vh; */
+}
+
+.paid-seal{
+  border: 4px dotted black;
+  width: fit-content;
+  font-size: 4rem;
+  text-transform: uppercase;
+  /* text-align: center; */
+  margin: 100px auto;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+
+.invoice-footer{
+  text-align: center;
+  font-size: small;
+  bottom: 0;
 }
 
 @media (max-width: 768px) {
@@ -361,3 +454,29 @@ textarea{
 }
 
 
+/* Ensure PDF-friendly styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .invoice-section, .invoice-section * {
+    visibility: visible;
+  }
+  .invoice-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+/* Temporary container styling for PDF */
+.pdf-temp-container {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 210mm;
+  background: white;
+  padding: 20mm;
+  font-family: Arial, sans-serif;
+}

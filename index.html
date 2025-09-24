@@ -31,7 +31,7 @@
       <nav>
         <div>
           <!-- <a href="order-section"></a> -->
-          <h1 class="links" onclick="purr()">order</h1>
+          <h1 class="links" onclick="gotoOrder()">order</h1>
           <!-- <h1 class="links" onclick="purr()">logo</h1> -->
           <img
             src="images/logo.png"
@@ -78,7 +78,9 @@
         <audio id="purr">
           <source src="images/meow.mp3" type="audio/mp3" />
         </audio>
-        <button type="button" onclick="purr()" class="links">ORDER NOW</button>
+        <button type="button" onclick="gotoOrder()" class="links">
+          ORDER NOW
+        </button>
       </div>
     </section>
 
@@ -86,7 +88,7 @@
     <section></section>
 
     <!-- 4th section : Order -->
-    <section class="order-section">
+    <section class="order-section" id="order-section">
       <h1 class="order-header">ORDER</h1>
       <!-- form -->
       <div class="formarea" id="invoice">
@@ -112,14 +114,16 @@
             id="address"
             cols="20"
             rows="3"
-            placeholder="123/A, abc road, XYZpara, Dhaka"
+            placeholder="123/A, ABC road, XYZpara, Dhaka"
           ></textarea>
         </div>
-        <div class="location-radio">
-          <input type="radio" id="html" name="location" value="Inside Dhaka" />
-          <label for="html">Inside Dhaka</label><br />
-          <input type="radio" id="css" name="location" value="Outside Dhaka" />
-          <label for="css">Outside Dhaka</label><br />
+        <div class="location-radio" onchange="countTotal()">
+          <input type="radio" id="html" name="location" value="80" checked />
+          <label for="html"
+            >Inside Dhaka (Tk. 80 shipping delivery charge)</label
+          ><br />
+          <input type="radio" id="css" name="location" value="160" />
+          <label for="css">Outside Dhaka (Tk. 160 delivery charge)</label><br />
         </div>
         <h1 class="cart-header">Your Cart</h1>
         <!-- order items -->
@@ -129,16 +133,39 @@
             <p>Tailiva Permium Chicken</p>
           </div>
           <div class="itemnum">
-            <button type="submit" onclick="handleNum()">+</button>
+            <button type="submit" onclick="decreaseCount()">-</button>
+            <button type="submit" onclick="increaseCount()">+</button>
             <p>x<span class="amount">1</span></p>
           </div>
         </div>
-        <p class="nb">(*We are doing Cash on delivery for a few days. If you want to pay early just call this number: 017XXXXXXXX)</p>
-        <div class="checkout-btn" id="download" onclick="downloadPDF()">Checkout</div>
+        <hr />
+        <div class="total-amount">
+          <!-- <h></h1> -->
+          <h3>Total amount</h3>
+          <p>Tk. <span id="payment-amount">430</span></p>
+        </div>
+        <div class="transaction-field">
+          <label for="name">Transaction Id</label>
+          <input
+            type="text"
+            name="transactionId"
+            id="transactionId"
+            placeholder="XXX-XXXX-XXX"
+          />
+        </div>
+        <p class="nb">
+          (*We are doing Bkash payment only for a few days but we dont have the
+          bkash api 😭😭😭😭. Just pay the above amount to this number:
+          <span>01711738488</span> and paste the transaction id. You can also
+          call the number to make sure it's legit*)
+        </p>
+        <div class="checkout-btn" id="download" onclick="validateForm()">
+          Checkout
+        </div>
+        <div id="pdf"></div>
       </div>
     </section>
   </body>
   <script src="app.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </html>
