@@ -1,172 +1,1317 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="icon" type="image/x-icon" href="/images/logo.png" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Tailiva</title>
-  </head>
-  <body>
-    <!-- 1st section : The video -->
-    <section class="video-section">
-      <nav>
-        <div>
-          <!-- <a href="order-section"></a> -->
-          <h1 class="links" onclick="gotoOrder()">order</h1>
-          <!-- <h1 class="links" onclick="purr()">logo</h1> -->
-          <img
-            src="images/logo.png"
-            alt="logo image"
-            class="links"
-            onclick="purr()"
-          />
-          <h1 class="links" onclick="purr()">ingredients</h1>
-        </div>
-      </nav>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/logo.png" type="image/png">
 
-      <div>
-        <video autoplay loop muted poster="images/poster.png">
-          <source src="images/tailiva.mp4" type="video/mp4" />
-        </video>
-        <h1 class="short-para">
-          <span>Tailiva:</span> Protein Powerhouse for Your Feline Friend!
-        </h1>
-        <h1 class="short-para2">Tailiva</h1>
-      </div>
+    <title>TAILIVA - Premium Cat Food</title>
+    <!-- EmailJS library script is kept here for availability -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <!-- The conflicting, undefined form submission logic has been removed from here. -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #FF8C42;
+            --dark-orange: #E67E22;
+            --light-orange: #FFB380;
+            --cream: #FFF8F0;
+            --dark-text: #2C2C2C;
+            --light-text: #666666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cream);
+            color: var(--dark-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+
+        /* Added modal styles for checkout form */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-orange);
+            padding-bottom: 1rem;
+        }
+
+        .modal-header h2 {
+            color: var(--primary-orange);
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--light-text);
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--primary-orange);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light-orange);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, var(--cream) 0%, #FFE8D6 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--light-orange);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-item.total {
+            border-top: 2px solid var(--light-orange);
+            padding-top: 0.8rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 140, 66, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 140, 66, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(255, 140, 66, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-text p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            color: var(--primary-orange);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF0E6 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 140, 66, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 140, 66, 0.2);
+            margin: 2rem auto;
+            animation: zoomIn 0.8s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Ingredients Section */
+        .ingredients {
+            padding: 4rem 2rem;
+            background: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: var(--primary-orange);
+            margin-bottom: 3rem;
+            font-weight: 800;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-orange), var(--light-orange));
+            border-radius: 2px;
+        }
+
+        .ingredients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .ingredient-card {
+            background: linear-gradient(135deg, #FFF8F0 0%, #FFE8D6 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--light-orange);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ingredient-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ingredient-card:hover::before {
+            left: 100%;
+        }
+
+        .ingredient-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255, 140, 66, 0.2);
+            border-color: var(--primary-orange);
+        }
+
+        .ingredient-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .ingredient-card h3 {
+            color: var(--primary-orange);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .ingredient-card .subtitle {
+            color: var(--light-text);
+            font-style: italic;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .ingredient-card p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .ingredient-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .ingredient-card li {
+            color: var(--dark-text);
+            margin: 0.7rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .ingredient-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-orange);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Lifestyle Section */
+        .lifestyle {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF0E6 100%);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .lifestyle-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .lifestyle-image {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 140, 66, 0.15);
+        }
+
+        .lifestyle-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-orange);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .lifestyle-text p {
+            color: var(--light-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Product Section */
+        .product-section {
+            padding: 4rem 2rem;
+            background: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(255, 140, 66, 0.2);
+        }
+
+        .product-details h3 {
+            font-size: 2rem;
+            color: var(--primary-orange);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .product-specs {
+            background: linear-gradient(135deg, var(--cream) 0%, #FFE8D6 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary-orange);
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+            font-size: 0.95rem;
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .spec-value {
+            color: var(--primary-orange);
+            font-weight: 700;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            background: var(--cream);
+            padding: 1rem;
+            border-radius: 10px;
+            width: fit-content;
+        }
+
+        .quantity-btn {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--dark-orange);
+            transform: scale(1.1);
+        }
+
+        .quantity-display {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Updated price display to show dynamic total */
+        .price-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            margin-top: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFE8D6 100%);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 140, 66, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 140, 66, 0.4);
+        }
+
+        .buy-button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Feeding Guide Section */
+        .feeding-guide {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF0E6 100%);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .guide-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .guide-image {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(255, 140, 66, 0.15);
+            order: 2;
+        }
+
+        .guide-text {
+            order: 1;
+        }
+
+        .guide-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-orange);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .serving-chart {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            border: 2px solid var(--light-orange);
+        }
+
+        .serving-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-orange);
+            font-size: 0.95rem;
+        }
+
+        .serving-item:last-child {
+            border-bottom: none;
+        }
+
+        .serving-weight {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .serving-amount {
+            color: var(--primary-orange);
+            font-weight: 700;
+        }
+
+        .tips-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .tips-list li {
+            padding: 0.8rem 0 0.8rem 1.5rem;
+            position: relative;
+            color: var(--light-text);
+            font-size: 0.95rem;
+        }
+
+        .tips-list li::before {
+            content: '🐾';
+            position: absolute;
+            left: 0;
+            font-size: 1rem;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-orange) 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.4rem;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .ingredients-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lifestyle-content,
+            .product-container,
+            .guide-content {
+                grid-template-columns: 1fr;
+            }
+
+            .guide-image {
+                order: 1;
+            }
+
+            .guide-text {
+                order: 2;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .product-details h3 {
+                font-size: 1.5rem;
+            }
+
+            .lifestyle-text h3,
+            .guide-text h3 {
+                font-size: 1.5rem;
+            }
+
+            .toast {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+
+            .logo-img {
+                width: 50px;
+                height: 50px;
+            }
+
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .ingredients,
+            .lifestyle,
+            .product-section,
+            .feeding-guide {
+                padding: 2rem 1rem;
+            }
+
+            .quantity-selector {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .buy-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <img src="images/logo.png" alt="TAILIVA Logo" class="logo-img">
+                <div class="logo-text">
+                    <h1>TAILIVA</h1>
+                    <p>Premium Cat Nutrition</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="scrollToSection('product')">Shop Now</button>
+                <button class="nav-btn" onclick="scrollToSection('guide')">Feeding Guide</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Protein Powerhouse for Your Feline Friend!</h2>
+            <p>This carefully curated chicken-based wet food recipe is designed to provide your cat with optimal nutrition. Packed with high-quality protein and enriched with essential nutrients for a thriving, healthy companion.</p>
+            <img src="images/banner-section.png" alt="TAILIVA Product with Cats and Ingredients" class="hero-image">
+        </div>
     </section>
 
-    <!-- 2nd section : Hero section -->
-    <section class="hero-section">
-      <img src="images/hero-photo.png" alt="banner-photo" class="photo" />
-      <div class="description">
-        <!-- <img src="images/logo.png" alt="logo" class="logo" /> -->
-        <h1>TAILIVA</h1>
-        <p class="cathphrase">Protein Powerhouse for Your Feline Friend!</p>
-        <p>
-          Protein Powerhouse for Your Feline Friend! This carefully curated
-          chicken-based wet food recipe is designed to provide your cat with
-          optimal nutrition. Packed with high-quality protein from boneless
-          chicken and liver, it's a true energy booster for their active
-          lifestyle. The blend of carrot, pumpkin, and sweet potato offers a
-          perfect balance of fiber and essential vitamins, promoting healthy
-          digestion and sustained energy. Enriched with fish oil for a shiny
-          coat and taurine for a healthy heart, this recipe is crafted to keep
-          your cat thriving. The inclusion of chicken broth adds hydration and
-          irresistible flavor. Treat your furry companion to a wholesome,
-          nourishing meal they’ll love!
-        </p>
-        <!--  -->
-        <audio id="purr">
-          <source src="images/meow.MP3" type="audio/mp3" />
-        </audio>
-        <button type="button" onclick="gotoOrder()" class="links">
-          ORDER NOW
-        </button>
-      </div>
+    <!-- Ingredients Section -->
+    <section class="ingredients">
+        <h2 class="section-title">Why TAILIVA?</h2>
+        <div class="ingredients-grid">
+            <div class="ingredient-card">
+                <img src="images/chicken.png" alt="Chicken - Premium Protein" class="ingredient-image">
+                <h3>Chicken & Chicken Liver</h3>
+                <p class="subtitle">Premium Protein Powerhouse</p>
+                <p>"Fuel your cat's strength with real meat they crave."</p>
+                <ul>
+                    <li>Builds lean muscle and supports energy levels</li>
+                    <li>Packed with essential amino acids</li>
+                    <li>Delicious and naturally irresistible</li>
+                </ul>
+            </div>
+
+            <div class="ingredient-card">
+                <img src="images/carrot.png" alt="Vegetables - Fiber & Nutrients" class="ingredient-image">
+                <h3>Rice, Carrot & Pumpkin</h3>
+                <p class="subtitle">Balanced Fiber & Vital Nutrients</p>
+                <p>"Wholesome veggies for smooth digestion."</p>
+                <ul>
+                    <li>Promotes smooth digestion and healthy gut</li>
+                    <li>Provides slow-release energy</li>
+                    <li>Supports immune health</li>
+                </ul>
+            </div>
+
+            <div class="ingredient-card">
+                <img src="images/soupe.png" alt="Broth - Hydration" class="ingredient-image">
+                <h3>Nutritious Broth</h3>
+                <p class="subtitle">Hydration Support</p>
+                <p>"Keep them hydrated and purring with joy."</p>
+                <ul>
+                    <li>Prevents kidney and urinary issues</li>
+                    <li>Enhances flavor for mealtime</li>
+                    <li>Maintains healthy urinary tract</li>
+                </ul>
+            </div>
+
+            <div class="ingredient-card">
+                <img src="images/vitamin.png" alt="Omega-3 - Coat & Joints" class="ingredient-image">
+                <h3>Omega-3</h3>
+                <p class="subtitle">Shiny Coat & Healthy Joints</p>
+                <p>"For a glossy coat and agile joints."</p>
+                <ul>
+                    <li>Keeps coat glossy and skin healthy</li>
+                    <li>Supports joint mobility</li>
+                    <li>Boosts brain and heart health</li>
+                </ul>
+            </div>
+
+            <div class="ingredient-card">
+                <img src="images/taurine.png" alt="Taurine - Heart & Vision" class="ingredient-image">
+                <h3>Taurine</h3>
+                <p class="subtitle">Essential for Cats' Vital Functions</p>
+                <p>"The must-have nutrient for heart and vision."</p>
+                <ul>
+                    <li>Supports heart health and cardiac function</li>
+                    <li>Essential for sharp eyesight</li>
+                    <li>Strengthens immune system</li>
+                </ul>
+            </div>
+
+            <div class="ingredient-card">
+                <img src="images/eggshell.png" alt="Eggshell Powder - Calcium & Bones" class="ingredient-image">
+                <h3>Eggshell Powder</h3>
+                <p class="subtitle">Calcium & Bone Support</p>
+                <p>"Natural strength for bones and teeth."</p>
+                <ul>
+                    <li>Strengthens bones and teeth</li>
+                    <li>Supports skeletal growth</li>
+                    <li>Keeps your cat agile and strong</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
-    <!-- 3rd section : Ingredients -->
-    <section></section>
-
-    <!-- 4th section : Order -->
-    <section class="order-section" id="order-section">
-      <h1 class="order-header">ORDER</h1>
-      <!-- form -->
-      <div class="formarea" id="invoice">
-        <div class="first-section">
-          <div>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" placeholder="Waqar Khan" />
-          </div>
-          <div>
-            <label for="phone">Phone Number</label>
-            <input
-              type="text"
-              name="phone"
-              id="phone"
-              placeholder="01712345678"
-            />
-          </div>
+    <!-- Lifestyle Section -->
+    <section class="lifestyle">
+        <div class="lifestyle-content">
+            <img src="images/nourish-section.png" alt="TAILIVA in Garden Setting" class="lifestyle-image">
+            <div class="lifestyle-text">
+                <h3>Nourish Your Cat's Best Life</h3>
+                <p>TAILIVA is more than just food—it's a commitment to your cat's wellbeing. Every ingredient is carefully selected to support their natural instincts and keep them thriving.</p>
+                <p>From their shiny coat to their playful energy, you'll see the difference premium nutrition makes. Your cat deserves the best, and TAILIVA delivers.</p>
+            </div>
         </div>
-        <div class="address-area">
-          <label for="address">Address</label>
-          <textarea
-            name="address"
-            id="address"
-            cols="20"
-            rows="3"
-            placeholder="123/A, ABC road, XYZpara, Dhaka"
-          ></textarea>
-        </div>
-        <div class="location-radio" onchange="countTotal()">
-          <input type="radio" id="html" name="location" value="100" checked />
-          <label for="html"
-            >Inside Dhaka (Tk. 80 shipping delivery charge)</label
-          ><br />
-          <!-- <input type="radio" id="css" name="location" value="160" />
-          <label for="css">Outside Dhaka (Tk. 160 delivery charge)</label><br /> -->
-        </div>
-        <h1 class="cart-header">Your Cart</h1>
-        <!-- order items -->
-        <div class="order-items">
-          <div class="items">
-            <img src="images/box.png" alt="" />
-            <p>Tailiva Permium Chicken</p>
-          </div>
-          <div class="itemnum">
-            <button type="submit" onclick="decreaseCount()">-</button>
-            <button type="submit" onclick="increaseCount()">+</button>
-            <p>x<span class="amount">1</span></p>
-          </div>
-        </div>
-        <hr />
-        <div class="total-amount">
-          <!-- <h></h1> -->
-          <h3>Total amount</h3>
-          <p>Tk. <span id="payment-amount">430</span></p>
-        </div>
-        <div class="transaction-field">
-          <label for="name">Transaction Id</label>
-          <input
-            type="text"
-            name="transactionId"
-            id="transactionId"
-            placeholder="XXX-XXXX-XXX"
-          />
-        </div>
-        <p class="nb">
-          (*We are doing Bkash payment only for a few days but we dont have the
-          bkash api 😭😭😭😭. Just pay the above amount to this number:
-          <span>01711738488</span> and paste the transaction id. You can also
-          call the number to make sure it's legit*)
-        </p>
-        <div class="checkout-btn" id="download" onclick="validateForm()">
-          Checkout
-        </div>
-        <!-- <div id="pdf"></div> -->
-      </div>
     </section>
-  </body>
-  <script src="app.js"></script>
-  <!-- <script src="pdf.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
+
+    <!-- Product Section -->
+    <section class="product-section" id="product">
+        <h2 class="section-title">Get Your TAILIVA Today</h2>
+        <div class="product-container">
+            <img src="images/last-section.png" alt="TAILIVA Chicken Cat Food in Kitchen" class="product-image">
+            <div class="product-details">
+                <h3>TAILIVA Chicken Cat Food</h3>
+                <div class="product-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Flavor:</span>
+                        <span class="spec-value">Premium Chicken</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Net Weight:</span>
+                        <span class="spec-value">1kg</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Storage:</span>
+                        <span class="spec-value">Keep Frozen Below 0°C</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Shelf Life:</span>
+                        <span class="spec-value">6 Months from Manufacture</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Price per Unit:</span>
+                        <span class="spec-value">TK. 430</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Shipping:</span>
+                        <span class="spec-value">TK. 80</span>
+                    </div>
+                </div>
+
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: var(--dark-text);">Quantity:</label>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
+                    <span class="quantity-display" id="quantity">1</span>
+                    <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                </div>
+
+                <!-- Added dynamic price display -->
+                <div class="price-display">
+                    <div style="font-size: 0.9rem; color: var(--light-text); margin-bottom: 0.5rem;">Total Price (with shipping):</div>
+                    <div id="totalPrice" style="font-size: 1.5rem;">TK. 510</div>
+                </div>
+
+                <button class="buy-button" onclick="addToCart()">🛒 Add to Cart</button>
+                <button class="buy-button" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); margin-top: 0.5rem;" onclick="openCheckoutModal()">💳 Buy Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Added checkout modal for collecting user information -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Complete Your Order</h2>
+                <button class="close-btn" onclick="closeCheckoutModal()">×</button>
+            </div>
+
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Product (TAILIVA Chicken):</span>
+                    <span id="summaryProduct">1 × TK. 430</span>
+                </div>
+                <div class="summary-item">
+                    <span>Shipping:</span>
+                    <span>TK. 80</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="summaryTotal">TK. 510</span>
+                </div>
+            </div>
+
+            <!-- Note: bKash is a mobile financial service in Bangladesh -->
+            <form id="checkoutForm" onsubmit="submitOrder(event)">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Delivery Address *</label>
+                    <textarea id="address" name="address" required placeholder="Enter your complete delivery address"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="transactionId">bKash Transaction ID *</label>
+                    <input type="text" id="transactionId" name="transactionId" required placeholder="Enter your bKash transaction ID">
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="submitText">Complete Purchase</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feeding Guide Section -->
+    <section class="feeding-guide" id="guide">
+        <h2 class="section-title">Feeding Guide & Tips</h2>
+        <div class="guide-content">
+            <div class="guide-text">
+                <h3>TAILIVA Feeding Instructions</h3>
+                <p><strong>Serving Chart (Daily Amounts):</strong></p>
+                <div class="serving-chart">
+                    <div class="serving-item">
+                        <span class="serving-weight">Up to 2 kg (Small Cat):</span>
+                        <span class="serving-amount">70–100 g</span>
+                    </div>
+                    <div class="serving-item">
+                        <span class="serving-weight">2–4 kg (Medium Cat):</span>
+                        <span class="serving-amount">100–150 g</span>
+                    </div>
+                    <div class="serving-item">
+                        <span class="serving-weight">4–6 kg (Large Cat):</span>
+                        <span class="serving-amount">150–200 g</span>
+                    </div>
+                    <div class="serving-item">
+                        <span class="serving-weight">Above 6 kg (Extra Large):</span>
+                        <span class="serving-amount">200–250 g</span>
+                    </div>
+                </div>
+
+                <p style="margin-top: 1.5rem; font-weight: 600; color: var(--dark-text);">Feeding Tips:</p>
+                <ul class="tips-list">
+                    <li>Divide daily serving into 2–3 meals for better digestion</li>
+                    <li>Always provide fresh water alongside meals</li>
+                    <li>Adjust portions for very active, kitten, or older cats</li>
+                    <li>Thaw frozen portions in refrigerator before serving</li>
+                    <li>Consult your vet for personalized feeding advice</li>
+                </ul>
+            </div>
+            <img src="images/last-section.png" alt="Cats Enjoying TAILIVA Meal" class="guide-image">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TAILIVA - Premium Cat Nutrition. All rights reserved.</p>
+        <p>Made with love for your feline friends 🐱</p>
+    </footer>
+
+    <script>
+        // Initialize EmailJS with the public key
+        (function() {
+            emailjs.init("kqRmqWM3557aKh1Yi"); // Your Public Key
+        })();
+
+        const PRICE_PER_UNIT = 430;
+        const SHIPPING_COST = 80;
+        const PRODUCT_NAME = 'TAILIVA Chicken Cat Food';
+        let quantity = 1;
+
+        // [FIX 1: Define the missing function]
+        // This function now handles the EmailJS submission using the collected formData object.
+        window.sendOrderEmail = function(data) {
+            const SERVICE_ID = 'service_dejqgns'; // Your Service ID
+            const TEMPLATE_ID = 'template_tsdgf9u'; // Your Template ID
+
+            // Use emailjs.send() to send the data object as template parameters
+            return emailjs.send(SERVICE_ID, TEMPLATE_ID, data)
+                .then((response) => {
+                    // Success (EmailJS typically returns status 200 'OK' on success)
+                    console.log('EmailJS SUCCESS!', response.status, response.text);
+                    return { success: true, response };
+                }, (error) => {
+                    // Failure
+                    console.error('EmailJS FAILED...', error);
+                    // Return success: false to signal failure to the calling function
+                    return { success: false, error: error.text || 'Unknown EmailJS Error' };
+                });
+        };
+
+        function updatePriceDisplay() {
+            const subtotal = quantity * PRICE_PER_UNIT;
+            const total = subtotal + SHIPPING_COST;
+            document.getElementById('totalPrice').textContent = `TK. ${total}`;
+            document.getElementById('summaryProduct').textContent = `${quantity} × TK. ${PRICE_PER_UNIT}`;
+            document.getElementById('summaryTotal').textContent = `TK. ${total}`;
+        }
+
+        function increaseQuantity() {
+            quantity++;
+            document.getElementById('quantity').textContent = quantity;
+            updatePriceDisplay();
+        }
+
+        function decreaseQuantity() {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').textContent = quantity;
+                updatePriceDisplay();
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        function addToCart() {
+            showToast(`✓ Added ${quantity} jar(s) to cart!`);
+        }
+
+        function openCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'block';
+            updatePriceDisplay();
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('checkoutModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Consolidated submission logic using the now-defined window.sendOrderEmail
+        async function submitOrder(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            submitBtn.disabled = true;
+            submitText.innerHTML = '<span class="loading-spinner"></span>Sending...';
+
+            // Collect all form data into a single object for EmailJS template parameters
+            const subtotal = quantity * PRICE_PER_UNIT;
+            const totalAmount = subtotal + SHIPPING_COST;
+
+            // Format currency strings consistently
+            const formatCurrency = (value) => `TK. ${value}`;
+
+            // Prepare form data with keys matching your EmailJS template placeholders
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                transactionId: document.getElementById('transactionId').value,
+                // Product details
+                product_name: PRODUCT_NAME,
+                product_quantity: quantity,
+                unit_price: PRICE_PER_UNIT,
+                // Price calculations
+                subtotal: subtotal,  // quantity × unit price
+                shipping: SHIPPING_COST,
+                total: totalAmount,  // subtotal + shipping
+                // Formatted versions with currency for display
+                formatted_unit_price: formatCurrency(PRICE_PER_UNIT),
+                formatted_subtotal: formatCurrency(subtotal),
+                formatted_shipping: formatCurrency(SHIPPING_COST),
+                formatted_total: formatCurrency(totalAmount),
+                // Numeric values for calculations
+                unit_price_value: PRICE_PER_UNIT,
+                subtotal_value: subtotal,
+                shipping_value: SHIPPING_COST,
+                total_value: totalAmount
+            };
+
+            // Debug: log payload to console so you can verify what EmailJS receives
+            console.log('[Order] formData to send to EmailJS:', JSON.stringify(formData));
+
+            try {
+                // Call the defined function to send the email
+                const result = await window.sendOrderEmail(formData);
+
+                if (result.success) {
+                    showToast('✓ Order confirmed! 🎉');
+                    document.getElementById('checkoutForm').reset();
+                    closeCheckoutModal();
+                    
+                    // Reset quantity and UI
+                    quantity = 1;
+                    document.getElementById('quantity').textContent = quantity;
+                    updatePriceDisplay();
+
+                    // Store invoice data in localStorage for the invoice.html file to use
+                    localStorage.setItem('invoiceData', JSON.stringify(formData)); 
+
+                } else {
+                    console.error('Email sending failed.', result.error);
+                    // Show success toast even if email fails, to confirm data was processed locally, 
+                    // but log error to console.
+                    showToast('Order received! (Email failed, check console)');
+                }
+            } catch (error) {
+                console.error('Error during order submission:', error);
+                showToast('Order received! (Submission error, check console)');
+            } finally {
+                submitBtn.disabled = false;
+                submitText.textContent = 'Complete Purchase';
+            }
+        }
+
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize price display on page load
+        updatePriceDisplay();
+    </script>
+</body>
 </html>
